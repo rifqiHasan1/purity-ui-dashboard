@@ -19,6 +19,8 @@ import {
   WalletIcon,
 } from "components/Icons/Icons.js";
 import React from "react";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { dashboardTableData, timelineData } from "variables/general";
 import ActiveUsers from "./components/ActiveUsers";
 import BuiltByDevelopers from "./components/BuiltByDevelopers";
@@ -30,31 +32,40 @@ import WorkWithTheRockets from "./components/WorkWithTheRockets";
 
 export default function Dashboard() {
   const iconBoxInside = useColorModeValue("white", "white");
+  const navigate = useHistory()
+
+  useEffect(() => {
+    if(localStorage.getItem("token") != undefined){
+      return;
+    } else {
+      navigate.push("/auth/signin")
+    }
+  })
 
   return (
     <Flex flexDirection='column' pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px'>
         <MiniStatistics
-          title={"Today's Moneys"}
-          amount={"$53,000"}
-          percentage={55}
+          title={"Total Pemasukan"}
+          amount={"6.450.000"}
+          // percentage={""}
           icon={<WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
         <MiniStatistics
-          title={"Today's Users"}
-          amount={"2,300"}
+          title={"Total Hutang"}
+          amount={"300.000"}
           percentage={5}
           icon={<GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
         <MiniStatistics
-          title={"New Clients"}
-          amount={"+3,020"}
+          title={"Total Barang"}
+          amount={"123"}
           percentage={-14}
           icon={<DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
         <MiniStatistics
-          title={"Total Sales"}
-          amount={"$173,000"}
+          title={"Total Barang Expired"}
+          amount={"21"}
           percentage={8}
           icon={<CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
@@ -70,13 +81,13 @@ export default function Dashboard() {
           description={
             "From colors, cards, typography to complex elements, you will find the full documentation."
           }
-          image={
-            <Image
-              src={logoChakra}
-              alt='chakra image'
-              minWidth={{ md: "300px", lg: "auto" }}
-            />
-          }
+          // image={
+          //   <Image
+          //     src={logoChakra}
+          //     alt='chakra image'
+          //     minWidth={{ md: "300px", lg: "auto" }}
+          //   />
+          // }
         />
         <WorkWithTheRockets
           backgroundImage={peopleImage}
@@ -102,7 +113,7 @@ export default function Dashboard() {
           chart={<LineChart />}
         />
       </Grid>
-      <Grid
+      {/* <Grid
         templateColumns={{ sm: "1fr", md: "1fr 1fr", lg: "2fr 1fr" }}
         templateRows={{ sm: "1fr auto", md: "1fr", lg: "1fr" }}
         gap='24px'>
@@ -117,7 +128,7 @@ export default function Dashboard() {
           amount={30}
           data={timelineData}
         />
-      </Grid>
+      </Grid> */}
     </Flex>
   );
 }

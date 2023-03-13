@@ -50,6 +50,7 @@ const Authors = ({ title, captions, data }) => {
                   status={row.status}
                   date={row.date}
                 />
+                
               );
             })}
           </Tbody>
