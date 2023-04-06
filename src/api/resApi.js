@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/";
+const BASE_URL = "https://mykantin.giriwangi.com/api/";
 const token = localStorage.getItem("token")
 
 function login(path_url, param) {

@@ -96,31 +96,38 @@ var dashRoutes = [
     state: "pageCollapse",
     views: [
       
-      ...(token !== null ? [{
-        path: "/signin",
-        name: "Sign out",
-        rtlName: "لوحة القيادة",
-        icon: <DocumentIcon color="inherit" />,
-        component: SignIn,
-        layout: "/auth",
-      },] : [,{
-        path: "/signin",
-        name: "Sign out",
-        rtlName: "لوحة القيادة",
-        icon: <DocumentIcon color="inherit" />,
-        component: SignIn,
-        layout: "/auth",
-      }]),
-      
-      
-      // {
+      // ...(token !== null ? [{
       //   path: "/signin",
-      //   name: "Sign Out",
+      //   name: "Sign out",
       //   rtlName: "لوحة القيادة",
       //   icon: <DocumentIcon color="inherit" />,
       //   component: SignIn,
       //   layout: "/auth",
-      // },
+      // },] : [,{
+      //   path: "/signup",
+      //   name: "Sign out",
+      //   rtlName: "لوحة القيادة",
+      //   icon: <DocumentIcon color="inherit" />,
+      //   component: SignUp,
+      //   layout: "/auth",
+      // }]),
+      {
+        path: "/signup",
+        name: "Sign Out",
+        rtlName: "لوحة القيادة",
+        icon: <DocumentIcon color="inherit" />,
+        component: SignUp,
+        layout: "/auth",
+      },
+      
+      {
+        path: "/signin",
+        name: "Sign Out",
+        rtlName: "لوحة القيادة",
+        icon: <DocumentIcon color="inherit" />,
+        component: SignIn,
+        layout: "/auth",
+      },
     ],
   },
 ];
