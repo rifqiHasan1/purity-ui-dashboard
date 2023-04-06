@@ -23,6 +23,10 @@ import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
 import RTLLayout from "layouts/RTL.js";
 
+import SignIn from "views/Auth/SignIn";
+
+
+
 ReactDOM.render(
   <HashRouter>
     <Switch>

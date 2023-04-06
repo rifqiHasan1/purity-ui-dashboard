@@ -15,6 +15,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Center,
   FormControl,
   FormErrorMessage,
   Input,
@@ -27,32 +28,22 @@ import { hapus } from "api/resApi";
 import { useForm } from "react-hook-form";
 import { edit } from "api/resApi";
 
-function TablesTableRow(props) {
-  const {
-    id,
-    logo,
-    detail,
-    tanggalMasuk,
-    expiredBarang,
-    Admin,
-    getBarangMasuk
-  } = props;
+function TablesPermintaan(props) {
+  const { id, logo, getPermintaan , tanggalPermintaan, keterangan, kodeBarang, idPermintaan} = props;
   const textColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "#1a202c");
   const colorStatus = useColorModeValue("white", "gray.400");
   const [open, setOpen] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [show, setShow] = React.useState(false);
-  console.log(getBarangMasuk);
   async function deletePropose(auth) {
     try {
-      await hapus(
-        `delete/barang-masuk/${id}`,
-        localStorage.getItem("token"),
-      ).then((result) => {
-        setShow(false);
-        getBarangMasuk(localStorage.getItem("token"))
-      });
+      await hapus(`delete/permintaan-barang/${id}`, localStorage.getItem("token")).then(
+        (result) => {
+          setShow(false);
+          getPermintaan(localStorage.getItem("token"));
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -67,16 +58,15 @@ function TablesTableRow(props) {
   const onSubmit = (data) => {
     console.log(data);
     try {
-      edit(`update/barang-masuk/${id}`,data, localStorage.getItem("token")).then((res) => {
+      edit(`update/permintaan-barang/${id}`,data, localStorage.getItem("token")).then((res) => {
           console.log(res.data);
           setOpenEdit(false)
-          getBarangMasuk(localStorage.getItem("token"));
+          getPermintaan(localStorage.getItem("token"));
       });
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <Tr>
       <Td minWidth={{ sm: "250px" }} pl="0px">
@@ -89,7 +79,7 @@ function TablesTableRow(props) {
               fontWeight="bold"
               minWidth="100%"
             >
-              {detail}
+              {keterangan}
             </Text>
           </Flex>
         </Flex>
@@ -98,7 +88,7 @@ function TablesTableRow(props) {
       <Td>
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
-            {tanggalMasuk}
+            {kodeBarang}
           </Text>
         </Flex>
       </Td>
@@ -109,22 +99,25 @@ function TablesTableRow(props) {
           // p="3px 10px"
           borderRadius="8px"
         >
-          {expiredBarang}
+          {tanggalPermintaan}
         </Badge>
       </Td>
       <Td>
         <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {Admin}
+          {idPermintaan}
         </Text>
       </Td>
       <Td>
         <Button
           onClick={() => {
             setOpenEdit(true);
-           
+          getPermintaan(localStorage.getItem("token"));
 
           }}
-          p="0px" bg="transparent" variant="no-hover">
+          p="0px"
+          bg="transparent"
+          variant="no-hover"
+        >
           <Text
             fontSize="md"
             color="gray.400"
@@ -156,7 +149,7 @@ function TablesTableRow(props) {
             <ModalBody>
               
               <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl isInvalid={errors.detail}>
+                <FormControl isInvalid={errors.keterangan}>
                   <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
                     keterangan
                   </FormLabel>
@@ -168,21 +161,21 @@ function TablesTableRow(props) {
                     placeholder="Fill it"
                     size="lg"
                     {...register("keterangan", {
-                      required: "This is required", value : detail
+                      required: "This is required", value : keterangan
                     })}
                   />
                   <FormErrorMessage>
-                    {errors.detail && errors.detail.message}
+                    {errors.keterangan && errors.keterangan.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={errors.tanggalMasuk}>
+                <FormControl isInvalid={errors.kodeBarang}>
                   <FormLabel
                     ms="4px"
                     mt="10px"
                     fontSize="sm"
                     fontWeight="normal"
                   >
-                    Tanggal Masuk
+                    kodeBarang
                   </FormLabel>
                   <Input
                     borderRadius="15px"
@@ -190,22 +183,22 @@ function TablesTableRow(props) {
                     type="text"
                     placeholder="Fill it"
                     size="lg"
-                    {...register("tanggalMasuk", {
-                      required: "This is required", value : tanggalMasuk
+                    {...register("kodeBarang", {
+                      required: "This is required", value : kodeBarang
                     })}
                   />
                   <FormErrorMessage>
-                    {errors.tanggalMasuk && errors.tanggalMasuk.message}
+                    {errors.kodeBarang && errors.kodeBarang.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={errors.expiredBarang}>
+                <FormControl isInvalid={errors.tanggalPermintaan}>
                   <FormLabel
                     ms="4px"
                     mt="10px"
                     fontSize="sm"
                     fontWeight="normal"
                   >
-                    Expired Barang
+                    tanggalPermintaan
                   </FormLabel>
                   <Input
                     borderRadius="15px"
@@ -214,12 +207,36 @@ function TablesTableRow(props) {
                     type="text"
                     placeholder="Fill it"
                     size="lg"
-                    {...register("expiredBarang", {
-                      required: "This is required", value : expiredBarang
+                    {...register("tanggalPermintaan", {
+                      required: "This is required", value : tanggalPermintaan
                     })}
                   />
                   <FormErrorMessage>
-                    {errors.expiredBarang && errors.expiredBarang.message}
+                    {errors.tanggalPermintaan && errors.tanggalPermintaan.message}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={errors.idPermintaan}>
+                  <FormLabel
+                    ms="4px"
+                    mt="10px"
+                    fontSize="sm"
+                    fontWeight="normal"
+                  >
+                    idPermintaan
+                  </FormLabel>
+                  <Input
+                    borderRadius="15px"
+                    // mb="24px"
+                    fontSize="sm"
+                    type="text"
+                    placeholder="Fill it"
+                    size="lg"
+                    {...register("idPermintaan", {
+                      required: "This is required", value : idPermintaan
+                    })}
+                  />
+                  <FormErrorMessage>
+                    {errors.idPermintaan && errors.idPermintaan.message}
                   </FormErrorMessage>
                 </FormControl>
                 <ModalFooter>
@@ -243,11 +260,9 @@ function TablesTableRow(props) {
         </Modal>
       </Td>
       <Td>
-        <Button
-        bg="red.500"
-        color="white"
-          onClick={() => {
-            setOpen(true);
+        <Button bg="red.500" color="white"
+          onClick={() =>{
+            setOpen(true)
           }}
         >
           Delete
@@ -259,7 +274,7 @@ function TablesTableRow(props) {
             <ModalHeader>Delete</ModalHeader>
             {/* <ModalCloseButton /> */}
             <ModalBody>
-              <Text>Are you sure??</Text>
+              <Text>Apakah anda yakin ingin menghapus barang ini ?</Text>
             </ModalBody>
             <ModalFooter>
               <Button
@@ -268,17 +283,18 @@ function TablesTableRow(props) {
                   setOpen(false);
                 }}
                 colorScheme="red"
-                mr={3}
+                mr="3"
               >
-                Delete
+                Iya
               </Button>
               <Button
-                colorScheme="blue"
+                bg="teal.300"
+                color="white"
                 onClick={() => {
                   setOpen(false);
                 }}
               >
-                Cancel
+                Tidak   
               </Button>
             </ModalFooter>
           </ModalContent>
@@ -288,4 +304,4 @@ function TablesTableRow(props) {
   );
 }
 
-export default TablesTableRow;
+export default TablesPermintaan;

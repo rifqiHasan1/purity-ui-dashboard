@@ -79,7 +79,7 @@ export default function Footer(props) {
             {document.documentElement.dir === "rtl" ? "سيممبل" : "Simmmple"}
           </Link>
         </ListItem>
-        <ListItem
+        {/* <ListItem
           me={{
             base: "20px",
             md: "44px",
@@ -101,7 +101,7 @@ export default function Footer(props) {
           >
             {document.documentElement.dir === "rtl" ? "رخصة" : "License"}
           </Link>
-        </ListItem>
+        </ListItem> */}
       </List>
     </Flex>
   );

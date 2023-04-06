@@ -11,6 +11,7 @@ import peopleImage from "assets/img/people-image.png";
 import logoChakra from "assets/svg/logo-white.svg";
 import BarChart from "components/Charts/BarChart";
 import LineChart from "components/Charts/LineChart";
+import LogoMK from "assets/img/BgMyKantin.png"
 // Custom icons
 import {
   CartIcon,
@@ -41,6 +42,24 @@ export default function Dashboard() {
       navigate.push("/auth/signin")
     }
   })
+
+  const [data, setData] = React.useState([]);
+  const [loadData, setLodData] = React.useState(true);
+
+  const getData = async (token) => {
+    try {
+      await getApi("data/barang", token).then((res) => {
+        console.log(res)
+        setData(res.data.data)
+      })
+    } catch (error) {
+      
+    }
+  }
+
+  React.useEffect(() =>{
+    getData( localStorage.getItem("token"));
+  },[])
 
   return (
     <Flex flexDirection='column' pt={{ base: "120px", md: "75px" }}>
@@ -76,18 +95,18 @@ export default function Dashboard() {
         my='26px'
         gap='24px'>
         <BuiltByDevelopers
-          title={"Built by Developers"}
-          name={"Purity UI Dashboard"}
+          title={"Selamat Datang"}
+          name={"Di Aplikasi MyKantin"}
           description={
-            "From colors, cards, typography to complex elements, you will find the full documentation."
+            "tempatnya mencari makanan enak dan bergizi! dari mulai hidangan tradisional hingga makanan modern "
           }
-          // image={
-          //   <Image
-          //     src={logoChakra}
-          //     alt='chakra image'
-          //     minWidth={{ md: "300px", lg: "auto" }}
-          //   />
-          // }
+          image={
+            <Image
+              src={LogoMK}
+              alt='chakra image'
+              minWidth={{ md: "300px", lg: "auto" }}
+            />
+          }
         />
         <WorkWithTheRockets
           backgroundImage={peopleImage}

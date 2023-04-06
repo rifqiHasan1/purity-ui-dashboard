@@ -22,6 +22,13 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
 function SignUp() {
+
+  const history = useHistory();
+
+  const handleLinkClick = (path) => {
+    history.push(path);
+  };
+
   const navigate = useHistory()
 
   const {
@@ -223,6 +230,7 @@ function SignUp() {
             <Text color={textColor} fontWeight="medium">
               Already have an account?
               <Link
+                onClick={() => handleLinkClick("/auth/signin")}
                 color={titleColor}
                 as="span"
                 ms="5px"

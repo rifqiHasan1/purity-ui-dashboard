@@ -1,14 +1,13 @@
 // Chakra imports
 import {
-  Button,
   Table,
   Tbody,
   Text,
   Th,
   Thead,
   Tr,
+  Button,
   useColorModeValue,
-  Box,
   Center,
   Modal,
   ModalOverlay,
@@ -16,44 +15,49 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   FormControl,
   FormErrorMessage,
   Input,
   FormLabel,
   Flex,
+  Box,
   Spacer,
   Image,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper 
 } from "@chakra-ui/react";
 // Custom components
+import { AddIcon } from "@chakra-ui/icons";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import TablesBarang from "components/Tables/TablesBarang";
+import TablesTransaksi from "components/Tables/TablesTranksaksiHarian";
 import React from "react";
 import { getApi } from "api/resApi";
-import { AddIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { create } from "api/resApi";
 import bgMyKantin from "../../../../assets/img/BgMyKantin.png";
 
 const Authors = ({ title, captions, data }) => {
-  const [barang, setBaramg] = React.useState([]);
-  const [loadBarang, setLodBarang] = React.useState(true);
+  const [transaksi, setTransaksi] = React.useState([]);
+  const [loadBarangMasuk, setLodBarangMasuk] = React.useState(true);
   const textColor = useColorModeValue("gray.700", "white");
   const [open, setOpen] = React.useState(false);
 
-  const getBarang = async (token) => {
+  const getTransaksi = async (token) => {
     try {
-      await getApi("data/barang", token).then((res) => {
+      await getApi("data/transaksi-harian", token).then((res) => {
         console.log(res);
-        setBaramg(res.data.data);
+        setTransaksi(res.data.data);
       });
     } catch (error) {}
   };
 
   React.useEffect(() => {
-    getBarang(localStorage.getItem("token"));
+    getTransaksi(localStorage.getItem("token"));
   }, []);
 
   const {
@@ -65,12 +69,14 @@ const Authors = ({ title, captions, data }) => {
   const onSubmit = (data) => {
     console.log(data);
     try {
-      create("create/barang", data).then((res) => {
-          console.log(res.data);
-          setOpen(false)
-          getBarang(localStorage.getItem("token"))
+      create("create/transaksi-harian", data).then((res) => {
+        console.log(res.data);
+        setOpen(false);
+        getTransaksi(localStorage.getItem("token"));
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -108,7 +114,7 @@ const Authors = ({ title, captions, data }) => {
                   <ModalHeader>
                     <Flex>
                       <Box>
-                        <Text>Add Barang</Text>
+                        <Text>Add Barang Masuk</Text>
                       </Box>
                       <Spacer />
                       <Image
@@ -123,9 +129,9 @@ const Authors = ({ title, captions, data }) => {
                   {/* <ModalCloseButton /> */}
                   <ModalBody>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      <FormControl isInvalid={errors.namaBarang}>
+                      <FormControl isInvalid={errors.keterangan}>
                         <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-                          Nama Barang
+                        keterangan
                         </FormLabel>
                         <Input
                           borderRadius="15px"
@@ -134,22 +140,22 @@ const Authors = ({ title, captions, data }) => {
                           type="text"
                           placeholder="Fill it"
                           size="lg"
-                          {...register("namaBarang", {
+                          {...register("keterangan", {
                             required: "This is required",
                           })}
                         />
                         <FormErrorMessage>
-                          {errors.namaBarang && errors.namaBarang.message}
+                          {errors.keterangan && errors.keterangan.message}
                         </FormErrorMessage>
                       </FormControl>
-                      <FormControl isInvalid={errors.jenisBarang}>
+                      <FormControl isInvalid={errors.pemasukan}>
                         <FormLabel
                           ms="4px"
                           mt="10px"
                           fontSize="sm"
                           fontWeight="normal"
                         >
-                          Jenis Barang
+                          pemasukan
                         </FormLabel>
                         <Input
                           borderRadius="15px"
@@ -157,50 +163,48 @@ const Authors = ({ title, captions, data }) => {
                           type="text"
                           placeholder="Fill it"
                           size="lg"
-                          {...register("jenisBarang", {
+                          {...register("pemasukan", {
                             required: "This is required",
                           })}
                         />
                         <FormErrorMessage>
-                          {errors.jenisBarang && errors.jenisBarang.message}
+                          {errors.pemasukan && errors.pemasukan.message}
                         </FormErrorMessage>
                       </FormControl>
-                      <FormControl isInvalid={errors.hargaBarang}>
+                      <FormControl isInvalid={errors.tanggalTransaksi}>
                         <FormLabel
                           ms="4px"
                           mt="10px"
                           fontSize="sm"
                           fontWeight="normal"
                         >
-                          Harga Barang
+                          tanggalTransaksi
                         </FormLabel>
                         <Input
                           borderRadius="15px"
-                          // mb="24px"
                           fontSize="sm"
                           type="text"
                           placeholder="Fill it"
                           size="lg"
-                          {...register("hargaBarang", {
+                          {...register("tanggalTransaksi", {
                             required: "This is required",
                           })}
                         />
                         <FormErrorMessage>
-                          {errors.hargaBarang && errors.hargaBarang.message}
+                          {errors.tanggalTransaksi && errors.tanggalTransaksi.message}
                         </FormErrorMessage>
                       </FormControl>
-                      {/* <FormControl isInvalid={errors.admin}>
+                      {/* <FormControl isInvalid={errors.idAdmin}>
                         <FormLabel
                           ms="4px"
                           mt="10px"
                           fontSize="sm"
                           fontWeight="normal"
                         >
-                          Id Admin
+                          idAdmin
                         </FormLabel>
                         <Input
                           borderRadius="15px"
-                          // mb="24px"
                           fontSize="sm"
                           type="text"
                           placeholder="Fill it"
@@ -210,7 +214,7 @@ const Authors = ({ title, captions, data }) => {
                           })}
                         />
                         <FormErrorMessage>
-                          {errors.admin && errors.admin.message}
+                          {errors.idAdmin && errors.idAdmin.message}
                         </FormErrorMessage>
                       </FormControl> */}
                       <ModalFooter>
@@ -220,7 +224,7 @@ const Authors = ({ title, captions, data }) => {
                           color="white"
                           mr="3"
                         >
-                          Send
+                          Add
                         </Button>
                         <Button
                           colorScheme="red"
@@ -238,16 +242,17 @@ const Authors = ({ title, captions, data }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {barang.map((row) => {
+            {transaksi.map((row) => {
               return (
-                <TablesBarang
-                  // key={`${row.email}-${row.name}`}
-                  name={row.namaBarang}
-                  jenisBarang1={row.jenisBarang}
-                  hargaBarang1={row.hargaBarang}
-                  Admin={row.idAdmin}
-                  getBarang={getBarang}
+                <TablesTransaksi
+                  key={`${row.email}-${row.name}`}
                   id={row.id}
+                  getTransaksi={getTransaksi}
+                  pemasukan={row.pemasukan}
+                  keterangan={row.keterangan}
+                  tanggalTransaksi={row.tanggalTransaksi}
+                  idAdmin={row.idAdmin}
+                  
                 />
               );
             })}

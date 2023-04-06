@@ -92,7 +92,7 @@ export default function Dashboard(props) {
 				logoText={'PURITY UI DASHBOARD'}
 				display='none'
 				sidebarVariant={sidebarVariant}
-				{...rest}
+				// {...rest}
 			/>
 			<MainPanel
 				w={{
@@ -119,7 +119,7 @@ export default function Dashboard(props) {
 						</PanelContainer>
 					</PanelContent>
 				) : null}
-				<Footer />
+				
 				<Portal>
 					<FixedPlugin secondary={getActiveNavbar(routes)} fixed={fixed} onOpen={onOpen} />
 				</Portal>

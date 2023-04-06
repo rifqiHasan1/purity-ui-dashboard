@@ -17,17 +17,24 @@ import {
 } from "@chakra-ui/react";
 // Assets
 import signInImage from "assets/img/signInImage.png";
+import BgMyKantin from "assets/img/BgMyKantin.png";
 import { login } from "api/resApi";
 import { Redirect, useHistory } from "react-router-dom";
 
+
 function SignIn() {
+  const history = useHistory();
+
+  const handleLinkClick = (path) => {
+    history.push(path);
+  };
   const navigate = useHistory()
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm();
-
+  localStorage.removeItem("token")
   const onSubmit = (data) => {
     console.log("jalan");
     try {
@@ -36,6 +43,7 @@ function SignIn() {
           localStorage.setItem("token", res.data.token)
           navigate.push("/admin/dashboard")
           console.log(res.data);
+          
         }
       });
     } catch (error) {
@@ -152,7 +160,7 @@ function SignIn() {
             >
               <Text color={textColor} fontWeight="medium">
                 Don't have an account?
-                <Link color={titleColor} as="span" ms="5px" fontWeight="bold">
+                <Link onClick={() => handleLinkClick("/auth/signup")} as="span" href='/purity-ui-dashboard#/auth/signup' color={titleColor} ms="5px" fontWeight="bold">
                   Sign Up
                 </Link>
               </Text>
@@ -168,7 +176,8 @@ function SignIn() {
           right="0px"
         >
           <Box
-            bgImage={signInImage}
+            bg="teal.300"
+            bgImage={BgMyKantin}
             w="100%"
             h="100%"
             bgSize="cover"
